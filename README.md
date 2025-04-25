@@ -1,6 +1,6 @@
 # web3modal.pas
 
-Connects many crypto wallet providers to your Delphi-made Web app in seconds.
+Connects 500+ crypto wallet providers to your Delphi-made Web app in seconds.
 
 web3modal.pas is built upon the following tech stack:
 1. [Embarcadero Delphi](https://www.embarcadero.com/products/delphi), an IDE and programming language.
