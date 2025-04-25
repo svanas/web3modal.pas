@@ -9,7 +9,7 @@ web3modal.pas is built upon the following tech stack:
 
 Under the hood, web3modal.pas is powered by [Reown's AppKit](https://reown.com/appkit) — a JavaScript toolkit to build a unified UX for decentralized Web apps.
 
-Reown's AppKit is included with this repo and as such you don’t need to install it. But you do need [Delphi Community Edition](https://www.embarcadero.com/products/delphi/starter) and [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp#downloads) and [web3.pas](https://github.com/svanas/web3.pas).
+Reown's AppKit gets downloaded at runtime and as such you don’t need to install it. But you do need [Delphi Community Edition](https://www.embarcadero.com/products/delphi/starter) and [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp#downloads).
 
 ## Installation
 
@@ -17,6 +17,12 @@ Reown's AppKit is included with this repo and as such you don’t need to instal
 1. Launch Delphi and start a new TMS Web Core project via _File > New > Other > TMS Web > TMS Web Application_
 1. Save your application to a directory of your choosing
 1. Click on: _Project > Add to Project_ and add `web3modal.pas` (the unit, not the directory) to your project
+
+## Implementation
+
+## Production
+
+When you are ready to release your Web app in the wild, you should create a new project on [Reown Cloud](https://cloud.reown.com) and obtain a new project ID.
 
 ## Learn more
 
