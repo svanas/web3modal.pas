@@ -9,16 +9,52 @@ web3modal.pas is built upon the following tech stack:
 
 Under the hood, web3modal.pas is powered by [Reown's AppKit](https://reown.com/appkit) — a JavaScript toolkit to build a unified UX for decentralized Web apps.
 
-Reown's AppKit gets downloaded at runtime and as such you don’t need to install it. But you do need [Delphi Community Edition](https://www.embarcadero.com/products/delphi/starter) and [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp#downloads).
+Before you proceed with the below steps, please make sure you have at least [Delphi Community Edition](https://www.embarcadero.com/products/delphi/starter) and [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp#downloads). We will guide you though the rest you need.
 
 ## Installation
 
 1. Clone this repo to a directory of your choosing, for example `C:\Projects\web3modal.pas`
-1. Launch Delphi and start a new TMS Web Core project via _File > New > Other > TMS Web > TMS Web Application_
-1. Save your application to a directory of your choosing
-1. Click on: _Project > Add to Project_ and add `web3modal.pas` (the unit, not the directory) to your project
+2. Launch Delphi and start a new TMS Web Core project via _File > New > Other > TMS Web > TMS Web Application_
+3. Save your application to a directory of your choosing
+4. Click on: _Project > Add to Project_ and add `web3modal.pas` (the unit, not the directory) to your project
+5. Open a PowerShell window and navigate to the directory where your TMS Web Core project is
+6. Enter the following command:
+   ```
+   node --version
+   ```
+7. If this gives a "not recognized" error, node.js isn't installed and you need to proceed with the next step. Otherwise, you are good to go and ready to proceed with step 9 (below)
+8. Download and install node.js from the official website: https://nodejs.org. This will install both node.js and npm.
+9. Enter the following command:
+   ```
+   npm install @reown/appkit @reown/appkit-adapter-ethers
+   ```
 
 ## Implementation
+
+## Dependencies
+
+Because [Reown's AppKit](https://reown.com/appkit) is a so-called ES module, and because Reown's AppKit depends on other ES modules, you need to bundle these dependencies before you can run your application.
+
+For this purpose, we will be using [esbuild](https://esbuild.github.io), a JavaScript module bundler. It will not bundle dead code and as such it creates a very efficient single JavaScript file.
+
+1. Open a PowerShell window and navigate to the directory where your TMS Web Core project is
+2. Enter the following command:
+   ```
+   esbuild --version
+   ```
+3. If this gives a "not recognized" error, esbuild isn't installed and you need to proceed with the next step. Otherwise, you are good to go and ready to proceed with step 5 (below)
+4. Enter the following command:
+   ```
+   npm install --global esbuild
+   ```
+5. Enter the following command:
+   ```
+   npx esbuild src/main.js --bundle --outfile=dist/bundle.js --format=esm
+   ```
+6. Switch to Delphi and open your TMS Web Core project
+7. Click on: _Project > Add to Project_ and add `dist/bundle.js` to your project
+
+You are now ready to run your application in de IDE (F9).
 
 ## Production
 
