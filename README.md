@@ -27,7 +27,7 @@ Before you proceed with the below steps, please make sure you have at least [Del
 Before you can use web3modal.pas in your TMS Web Core project, you will need to manually add the following snippet to the `<head>` section of your project's HTML document:
 
 ```html
-<script type="module" src="https://raw.githubusercontent.com/svanas/web3modal.pas/refs/heads/main/dist/web3modal.js"></script>
+<script type="module" src="https://raw.githubusercontent.com/svanas/web3modal.pas/main/dist/web3modal.js"></script>
 ```
 
 ## Implementation
