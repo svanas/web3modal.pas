@@ -66,7 +66,7 @@ However, if you really really want to build Reown’s AppKit, here is how to do 
 1. If this gives a "not recognized" error, node.js isn't installed and you need to proceed with the next step. Otherwise, you are good to go and ready to proceed with the Vite installation (below)
 1. Download and install node.js from the official website: https://nodejs.org. This will install both node.js and npm.
 
-Next up, you’ll need to install Vite, a JavaScript module bundler. Vite will not bundle dead code and as such it creates a very efficient single JavaScript file.
+Next up, you’ll need to install [Vite](https://vite.dev), a JavaScript module bundler. Vite will not bundle dead code and as such it creates a very efficient single JavaScript file.
 
 1. Open a PowerShell window and navigate to the directory where you cloned this repo into.
 1. Enter the following command:
