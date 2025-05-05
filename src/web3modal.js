@@ -13,6 +13,7 @@ window.appKit = {
   sonic        : null
 }
 
+import { ethers } from 'ethers';
 import { createAppKit } from '@reown/appkit';
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
 import { arbitrum, avalanche, base, bsc, holesky, localhost, mainnet, optimism, polygon, sepolia, sonic } from '@reown/appkit/networks';
@@ -29,6 +30,7 @@ window.appKit.create = (networks, projectId, darkMode, analytics) => {
   })
 }
 
+window.ethers           = ethers;
 window.appKit.arbitrum  = arbitrum;
 window.appKit.avalanche = avalanche;
 window.appKit.base      = base;

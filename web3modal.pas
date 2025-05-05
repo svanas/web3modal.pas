@@ -95,6 +95,7 @@ type
     procedure Open; async;                                         external name 'open'; overload;
     procedure Open(const options: TOptions); async;                external name 'open'; overload;
     procedure Disconnect; async;                                   external name 'disconnect';
+    procedure SwitchNetwork(const chain: TChain); async;           external name 'switchNetwork';
     procedure SubscribeAccount(const callback: TProc<TAccount>);   external name 'subscribeAccount';
     procedure SubscribeProvider(const callback: TProc<TJSObject>); external name 'subscribeProviders';
     procedure SubscribeNetwork(const callback: TProc<TNetwork>);   external name 'subscribeNetwork';
