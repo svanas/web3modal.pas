@@ -1,13 +1,13 @@
 # web3modal.pas
 
-Connects 500+ crypto wallet providers to your Delphi-made Web app in seconds.
+Connects 500+ crypto wallet providers to your Delphi-made web app in seconds.
 
 web3modal.pas is built upon the following tech stack:
 1. [Embarcadero Delphi](https://www.embarcadero.com/products/delphi), an IDE and programming language.
 1. [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp), a framework for creating modern web applications in Delphi.
-1. [web3.pas](https://github.com/svanas/web3.pas), a SDK for creating decentralized Web apps with TMS Web Core in Delphi.
+1. [web3.pas](https://github.com/svanas/web3.pas), a SDK for creating decentralized web apps with TMS Web Core in Delphi.
 
-Under the hood, web3modal.pas is powered by [Reown's AppKit](https://reown.com/appkit), a JavaScript toolkit to build a unified UX for decentralized Web apps.
+Under the hood, web3modal.pas is powered by [Reown's AppKit](https://reown.com/appkit), a JavaScript toolkit to build a unified UX for decentralized web apps.
 
 Before you proceed with the below steps, please make sure you have at least [Delphi Community Edition](https://www.embarcadero.com/products/delphi/starter) and [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp#downloads). We will guide you though the rest you need.
 
@@ -34,7 +34,7 @@ Before you can use web3modal.pas in your TMS Web Core project, you will need to 
 
 ## Production
 
-When you are ready to release your Web app in the wild, you should create a new project on [Reown Cloud](https://cloud.reown.com) and obtain a new project ID.
+When you are ready to release your web app in the wild, you should create a new project on [Reown Cloud](https://cloud.reown.com) and obtain a new project ID.
 
 ## Learn more
 
