@@ -25,9 +25,6 @@ const
   ProjectId = 'b56e18d47c72ab683b10814fe9495694'; // this is a public projectId only to use on localhost
 
 type
-  TView    = (Connect, Networks, Account);
-  TOptions = TJSObject;
-
   TAccount = class external name 'Object'(TJSObject)
   strict private
     FAddress  : string;  external name 'address';
@@ -93,7 +90,7 @@ type
   public
     function  Connected: Boolean;                                  external name 'getIsConnectedState';
     procedure Open; async;                                         external name 'open'; overload;
-    procedure Open(const options: TOptions); async;                external name 'open'; overload;
+    procedure Open(const options: TJSObject); async;               external name 'open'; overload;
     procedure Disconnect; async;                                   external name 'disconnect';
     procedure SwitchNetwork(const chain: TChain); async;           external name 'switchNetwork';
     procedure SubscribeAccount(const callback: TProc<TAccount>);   external name 'subscribeAccount';
@@ -101,12 +98,6 @@ type
     procedure SubscribeNetwork(const callback: TProc<TNetwork>);   external name 'subscribeNetwork';
     procedure SubscribeState(const callback: TProc<TState>);       external name 'subscribeState';
   end;
-
-function CreateAppKit(
-  const networks : TArray<TChain>;
-  const projectId: string;
-  const darkMode : Boolean;
-  const analytics: Boolean): TAppKit; external name 'window.appKit.create';
 
 const
   Arbitrum : TChain; external name 'window.appKit.arbitrum';
@@ -121,18 +112,96 @@ const
   Sepolia  : TChain; external name 'window.appKit.sepolia';
   Sonic    : TChain; external name 'window.appKit.sonic';
 
-function Options(const view: TView): TOptions;
+type
+  TView    = (Connect, Networks, Account);
+  TOption  = (Analytics, DarkMode);
+  TOptions = set of TOption;
+
+  TWeb3Modal = class(TObject)
+  strict private
+    FAccount : TAccount;
+    FAppKit  : TAppKit;
+    FNetwork : TNetwork;
+    FProvider: JSValue;
+  public
+    constructor Create(const networks: TArray<TChain>; const options: TOptions; const projectId: string);
+    procedure Open; async; overload;
+    procedure Open(const view: TView); async; overload;
+    procedure Disconnect; async;
+    procedure SwitchNetwork(const chain: TChain); async;
+    function  Connected: Boolean;
+    property  CurrentAccount: TAccount read FAccount;
+    property  CurrentNetwork: TNetwork read FNetWork;
+    property  CurrentProvider: JSValue read FProvider;
+  end;
 
 implementation
 
-function Options(const view: TView): TOptions;
+{------------------------------- @reown/appkit --------------------------------}
+
+function GetOptions(const view: TView): TJSObject;
 begin
-  Result := TOptions.New;
+  Result := TJSObject.New;
   case view of
     Connect : Result['view'] := 'Connect';
     Networks: Result['view'] := 'Networks';
     Account : Result['view'] := 'Account';
   end;
+end;
+
+function CreateAppKit(
+  const networks : TArray<TChain>;
+  const projectId: string;
+  const darkMode : Boolean;
+  const analytics: Boolean): TAppKit; external name 'window.appKit.create';
+
+{--------------------------------- TWeb3Modal ---------------------------------}
+
+constructor TWeb3Modal.Create(const networks: TArray<TChain>; const options: TOptions; const projectId: string);
+begin
+  inherited Create;
+  FAppKit := CreateAppKit(networks, projectId, DarkMode in options, Analytics in options);
+  FAppKit.SubscribeState(procedure(arg: TState)
+  begin
+
+  end);
+  FAppKit.SubscribeAccount(procedure(arg: TAccount)
+  begin
+    FAccount := arg;
+  end);
+  FAppKit.SubscribeProvider(procedure(arg: TJSObject)
+  begin
+    if Assigned(arg) then FProvider := arg['eip155'] else FProvider := nil;
+  end);
+  FAppKit.SubscribeNetwork(procedure(arg: TNetwork)
+  begin
+    FNetwork := arg;
+  end);
+end;
+
+procedure TWeb3Modal.Open;
+begin
+  await(FAppKit.Open);
+end;
+
+procedure TWeb3Modal.Open(const view: TView);
+begin
+  await(FAppKit.Open(GetOptions(view)));
+end;
+
+procedure TWeb3Modal.Disconnect;
+begin
+  await(FAppKit.Disconnect);
+end;
+
+procedure TWeb3Modal.SwitchNetwork(const chain: TChain);
+begin
+  await(FAppKit.SwitchNetwork(chain));
+end;
+
+function TWeb3Modal.Connected: Boolean;
+begin
+  Result := FAppKit.Connected;
 end;
 
 end.
