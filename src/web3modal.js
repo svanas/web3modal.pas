@@ -1,16 +1,21 @@
 window.appKit = {
-  create  : null,
-  arbitrum: null,
-  base    : null,
-  mainnet : null,
-  optimism: null,
-  polygon : null,
-  sepolia : null
+  create       : null,
+  arbitrum     : null,
+  avalanche    : null,
+  base         : null,
+  bsc          : null,
+  holesky      : null,
+  localhost    : null,
+  mainnet      : null,
+  optimism     : null,
+  polygon      : null,
+  sepolia      : null,
+  sonic        : null
 }
 
 import { createAppKit } from '@reown/appkit';
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
-import { arbitrum, base, mainnet, optimism, polygon, sepolia } from '@reown/appkit/networks';
+import { arbitrum, avalanche, base, bsc, holesky, localhost, mainnet, optimism, polygon, sepolia, sonic } from '@reown/appkit/networks';
 
 window.appKit.create = (networks, projectId, darkMode, analytics) => {
   return createAppKit({
@@ -24,9 +29,14 @@ window.appKit.create = (networks, projectId, darkMode, analytics) => {
   })
 }
 
-window.appKit.arbitrum = arbitrum;
-window.appKit.base     = base;
-window.appKit.mainnet  = mainnet;
-window.appKit.optimism = optimism;
-window.appKit.polygon  = polygon;
-window.appKit.sepolia  = sepolia;
+window.appKit.arbitrum  = arbitrum;
+window.appKit.avalanche = avalanche;
+window.appKit.base      = base;
+window.appKit.bsc       = bsc;
+window.appKit.holesky   = holesky;
+window.appKit.localhost = localhost;
+window.appKit.mainnet   = mainnet;
+window.appKit.optimism  = optimism;
+window.appKit.polygon   = polygon;
+window.appKit.sepolia   = sepolia;
+window.appKit.sonic     = sonic;
