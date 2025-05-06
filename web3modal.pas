@@ -104,7 +104,6 @@ const
   Avalanche: TChain; external name 'window.appKit.avalanche';
   Base     : TChain; external name 'window.appKit.base';
   BSC      : TChain; external name 'window.appKit.bsc';
-  Ganache  : TChain; external name 'window.appKit.localhost';
   Holesky  : TChain; external name 'window.appKit.holesky';
   Mainnet  : TChain; external name 'window.appKit.mainnet';
   Optimism : TChain; external name 'window.appKit.optimism';
