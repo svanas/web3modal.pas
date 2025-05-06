@@ -25,12 +25,64 @@ Before you proceed with the below steps, please make sure you have at least [Del
 ## Configuration
 
 Before you can use web3modal.pas in your TMS Web Core project, you will need to manually add the following snippet to the `<head>` section of your project's HTML document:
-
 ```html
 <script type="module" src="https://raw.githubusercontent.com/svanas/web3modal.pas/main/dist/web3modal.js"></script>
 ```
 
 ## Implementation
+
+Before you can trigger the modal, you'll need to create a TWeb3Modal instance:
+```delphi
+var
+  modal: TWeb3Modal;
+begin
+  modal := TWeb3Modal.Create([Mainnet, Polygon], [], web3modal.ProjectId);
+  ...
+end;
+```
+Ideally, TWeb3Modal should be a singleton in your project. There is no need to have more than one instance in your application.
+
+### Trigger the modal
+
+You can trigger the modal by calling the `Open()` function from a modal instance returned by `TWeb3Modal.Create`:
+```delphi
+[async] procedure TForm1.WebButton1Click(Sender: TObject);
+begin
+  await(modal.Open);
+end;
+```
+If you want to open the Networks or Account view (not the Wallet Connect view), you can pass a parameter to `Open()`:
+```delphi
+[async] procedure TForm1.WebButton1Click(Sender: TObject);
+begin
+  await(modal.Open(Networks));
+end;
+```
+
+### Blockchain interaction
+
+1. Clone [this other repo](https://github.com/svanas/web3.pas) to a directory of your choosing, for example `C:\Projects\web3.pas`
+1. Click on: _Project > Add to Project_ and add `web3.pas` (the unit, not the directory) to your project
+
+Once `modal.Connected` is `True` and you have a `modal.CurrentProvider`, you have a read-only connection to the data on the blockchain. This can be used to query the current account state, fetch historic logs, look up contract code and so on.
+```delphi
+procedure TForm1.WebButton1Click(Sender: TObject);
+var
+  provider: TJsonRpcProvider;
+  balance : TWei;
+begin
+  provider := Ethers.BrowserProvider.New(modal.CurrentProvider);
+  if Assigned(provider) then
+  begin
+    // Get the current balance of an account (by address or ENS name)
+    balance := await(TWei, provider.GetBalance('vitalik.eth'));
+    // Since the balance is in wei, you may wish to display it in ether instead.
+    console.log(Ethers.FormatEther(balance));
+  end;
+end;
+```
+
+### Sending transactions
 
 ## Production
 
