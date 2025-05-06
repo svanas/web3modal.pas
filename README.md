@@ -7,7 +7,7 @@ web3modal.pas is built upon the following tech stack:
 1. [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp), a framework for creating modern web applications in Delphi.
 1. [web3.pas](https://github.com/svanas/web3.pas), a SDK for creating decentralized web apps with TMS Web Core in Delphi.
 
-Under the hood, web3modal.pas is powered by [Reown's AppKit](https://reown.com/appkit), a JavaScript toolkit to build a unified UX for decentralized web apps.
+Under the hood, web3modal.pas is powered by [Reown's AppKit](https://reown.com/appkit), a JavaScript toolkit to build a unified UX for decentralized web apps. You can see Reown's AppKit in action [here](https://demo.reown.com).
 
 Before you proceed with the below steps, please make sure you have at least [Delphi Community Edition](https://www.embarcadero.com/products/delphi/starter) and [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp#downloads). We will guide you though the rest you need.
 
@@ -66,7 +66,7 @@ end;
 
 Once `modal.Connected` is `True` and you have a `modal.CurrentProvider`, you have a read-only connection to the data on the blockchain. This can be used to query the current account state, fetch historic logs, look up contract code and so on.
 ```delphi
-procedure TForm1.WebButton1Click(Sender: TObject);
+[async] procedure TForm1.WebButton1Click(Sender: TObject);
 var
   provider: TJsonRpcProvider;
   balance : TWei;
@@ -83,6 +83,41 @@ end;
 ```
 
 ### Sending transactions
+
+To write to the blockchain you need access to a private key. In most cases, those private keys are not accessible directly to your code, and instead you make requests via a [Signer](https://docs.ethers.org/v6/api/providers/#Signer), which dispatches the request to your crypto wallet which provides strictly gated access and requires feedback to the user to approve or reject operations:
+```delphi
+[async] procedure TForm1.WebButton1Click(Sender: TObject);
+var
+  provider: TJsonRpcProvider;
+  signer  : TJsonRpcSigner;
+  tx      : TJSObject;
+  response: TTransactionResponse;
+  receipt : TTransactionReceipt;
+begin
+  // Connect to the EIP-1193 object. This is a standard protocol that allows for read-only requests through your crypto wallet.
+  provider := Ethers.BrowserProvider.New(modal.CurrentProvider);
+  if Assigned(provider) then
+  begin
+    // Request access to write operations, which will be performed by the private key that your crypto wallet manages for you.
+    signer := await(TJsonRpcSigner, provider.GetSigner);
+    if Assigned(signer) then
+    begin
+      // Once you have a Signer, you can have your crypto wallet sign your transaction and broadcast it to the network.
+      tx := Transaction(
+        modal.CurrentAccount.Address,                 // From your account
+        '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045', // To: vitalik.eth
+        Ethers.ParseEther('1.0')                      // Value
+      );
+      // Send tx to the network
+      response := await(TTransactionResponse, signer.SendTransaction(tx));
+      console.log(response.Hash); // the transaction hash
+      // Often you may wish to wait until the transaction is mined
+      receipt := await(TTransactionReceipt, response.Wait);
+      console.log(receipt.Status); // 1 for success, 0 for failure
+    end;
+  end;
+end;
+```
 
 ## Production
 
