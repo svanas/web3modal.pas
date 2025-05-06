@@ -17,7 +17,7 @@ import { createAppKit } from '@reown/appkit';
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
 import { arbitrum, avalanche, base, bsc, holesky, mainnet, optimism, polygon, sepolia, sonic } from '@reown/appkit/networks';
 
-window.appKit.create = (networks, projectId, darkMode, analytics) => {
+window.appKit.create = (networks, projectId, darkMode, analytics, swaps, onramp) => {
   return createAppKit({
     adapters: [new EthersAdapter()],
     networks,
@@ -25,6 +25,8 @@ window.appKit.create = (networks, projectId, darkMode, analytics) => {
     themeMode: darkMode ? 'dark' : 'light',
     features: {
       analytics,
+      swaps,
+      onramp,
     },
   })
 }
