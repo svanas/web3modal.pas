@@ -123,6 +123,10 @@ type
     FAppKit  : TAppKit;
     FNetwork : TNetwork;
     FProvider: JSValue;
+    FOnAccountChange : TProc<TAccount>;
+    FOnProviderChange: TProc<JSValue>;
+    FOnNetworkChange : TProc<TNetwork>;
+    FOnStateChange   : TProc<TState>;
   public
     constructor Create(const networks: TArray<TChain>; const options: TOptions; const projectId: string);
     procedure Open; async; overload;
@@ -133,6 +137,10 @@ type
     property  CurrentAccount: TAccount read FAccount;
     property  CurrentNetwork: TNetwork read FNetWork;
     property  CurrentProvider: JSValue read FProvider;
+    property  OnAccountChange : TProc<TAccount> read FOnAccountChange  write FOnAccountChange;
+    property  OnProviderChange: TProc<JSValue>  read FOnProviderChange write FOnProviderChange;
+    property  OnNetworkChange : TProc<TNetwork> read FOnNetworkChange  write FOnNetworkChange;
+    property  OnStateChange   : TProc<TState>   read FOnStateChange    write FOnStateChange;
   end;
 
 implementation
@@ -163,19 +171,22 @@ begin
   FAppKit := CreateAppKit(networks, projectId, DarkMode in options, Analytics in options);
   FAppKit.SubscribeState(procedure(arg: TState)
   begin
-
+    if Assigned(FOnStateChange) then FOnStateChange(arg);
   end);
   FAppKit.SubscribeAccount(procedure(arg: TAccount)
   begin
     FAccount := arg;
+    if Assigned(FOnAccountChange) then FOnAccountChange(FAccount);
   end);
   FAppKit.SubscribeProvider(procedure(arg: TJSObject)
   begin
     if Assigned(arg) then FProvider := arg['eip155'] else FProvider := nil;
+    if Assigned(FOnProviderChange) then FOnProviderChange(FProvider);
   end);
   FAppKit.SubscribeNetwork(procedure(arg: TNetwork)
   begin
     FNetwork := arg;
+    if Assigned(FOnNetworkChange) then FOnNetworkChange(FNetwork);
   end);
 end;
 
