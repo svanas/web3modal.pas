@@ -9,7 +9,7 @@ web3modal.pas is built upon the following tech stack:
 
 Under the hood, web3modal.pas is powered by [Reown's AppKit](https://reown.com/appkit), a JavaScript toolkit to build a unified UX for decentralized web apps. You can see Reown's AppKit in action [here](https://demo.reown.com).
 
-Before you proceed with the below steps, please make sure you have at least [Delphi Community Edition](https://www.embarcadero.com/products/delphi/starter) and [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp#downloads). We will guide you though the rest you need.
+Before you proceed with the below steps, please make sure you have at least [Delphi Community Edition](https://www.embarcadero.com/products/delphi/starter) and [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp#downloads). We will guide you though the rest you need, including installation of a crypto wallet into your web browser.
 
 ## Installation
 
