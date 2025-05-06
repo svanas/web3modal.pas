@@ -46,16 +46,16 @@ Ideally, TWeb3Modal should be a singleton in your project. There is no need to h
 
 You can trigger the modal by calling the `Open()` function from a modal instance returned by `TWeb3Modal.Create`:
 ```delphi
-[async] procedure TForm1.WebButton1Click(Sender: TObject);
+procedure TForm1.WebButton1Click(Sender: TObject);
 begin
-  await(modal.Open);
+  modal.Open;
 end;
 ```
 If you want to open the Networks or Account view (not the Wallet Connect view), you can pass a parameter to `Open()`:
 ```delphi
-[async] procedure TForm1.WebButton1Click(Sender: TObject);
+procedure TForm1.WebButton1Click(Sender: TObject);
 begin
-  await(modal.Open(Networks));
+  modal.Open(Networks);
 end;
 ```
 If you want to know if your web application is connected to your crypto wallet, you can do this:
@@ -64,20 +64,20 @@ if modal.Connected then ... else ...
 ```
 ### Disconnect
 ```delphi
-[async] procedure TForm1.WebButton1Click(Sender: TObject);
+procedure TForm1.WebButton1Click(Sender: TObject);
 begin
-  await(modal.Disconnect);
+  modal.Disconnect;
 end;
 ```
 
 ### Switch network
 ```delphi
-[async] procedure TForm1.WebButton1Click(Sender: TObject);
+procedure TForm1.WebButton1Click(Sender: TObject);
 begin
   if modal.CurrentNetwork.ChainId = Mainnet.Id then
-    await(modal.SwitchNetwork(Polygon))
+    modal.SwitchNetwork(Polygon)
   else
-    await(modal.SwitchNetwork(Mainnet));
+    modal.SwitchNetwork(Mainnet);
 end;
 ```
 
