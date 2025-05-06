@@ -58,6 +58,28 @@ begin
   await(modal.Open(Networks));
 end;
 ```
+If you want to know if your web application is connected to your crypto wallet, you can do this:
+```delphi
+if modal.Connected then ... else ...
+```
+### Disconnect
+```delphi
+[async] procedure TForm1.WebButton1Click(Sender: TObject);
+begin
+  await(modal.Disconnect);
+end;
+```
+
+### Switch network
+```delphi
+[async] procedure TForm1.WebButton1Click(Sender: TObject);
+begin
+  if modal.CurrentNetwork.ChainId = Mainnet.Id then
+    await(modal.SwitchNetwork(Polygon))
+  else
+    await(modal.SwitchNetwork(Mainnet));
+end;
+```
 
 ### Blockchain interaction
 
