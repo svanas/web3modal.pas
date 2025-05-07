@@ -9,7 +9,7 @@ web3modal.pas is built upon the following tech stack:
 
 Under the hood, web3modal.pas is powered by [Reown's AppKit](https://reown.com/appkit), a JavaScript toolkit to build a unified UX for decentralized web apps. You can see Reown's AppKit in action [here](https://demo.reown.com).
 
-Before you proceed with the below steps, please make sure you have at least [Delphi Community Edition](https://www.embarcadero.com/products/delphi/starter) and [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp#downloads). We will guide you though the rest you need, including installation of a crypto wallet into your web browser.
+Before you proceed with the below steps, please make sure you have at least [Delphi Community Edition](https://www.embarcadero.com/products/delphi/starter) and [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp#downloads). We will guide you through the rest you need, including installation of a crypto wallet into your web browser.
 
 ## Installation
 
@@ -106,7 +106,7 @@ end;
 
 ### Sending transactions
 
-To write to the blockchain you need access to a private key. In most cases, those private keys are not accessible directly to your code, and instead you make requests via a [Signer](https://docs.ethers.org/v6/api/providers/#Signer), which dispatches the request to your crypto wallet which provides strictly gated access and requires feedback to the user to approve or reject operations:
+To write to the blockchain you need access to a private key. In most cases, those private keys are not accessible directly to your code. Instead of writing to the blockchain directly, you make requests via a [Signer](https://docs.ethers.org/v6/api/providers/#Signer), which dispatches the request to your crypto wallet. Your crypto wallet provides strictly gated access and requires feedback to the user to approve or reject operations:
 ```delphi
 [async] procedure TForm1.WebButton1Click(Sender: TObject);
 var
