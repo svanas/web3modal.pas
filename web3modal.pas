@@ -120,16 +120,15 @@ type
     Swaps);    // Enable or disable the swap feature in your modal
   TOptions = set of TOption;
 
-  TWeb3Modal = class(TObject)
+  TWeb3Modal = class
   strict private
     FAccount : TAccount;
     FAppKit  : TAppKit;
     FNetwork : TNetwork;
     FProvider: JSValue;
-    FOnAccountChange : TProc<TAccount>;
-    FOnProviderChange: TProc<JSValue>;
-    FOnNetworkChange : TProc<TNetwork>;
-    FOnStateChange   : TProc<TState>;
+    FOnAccountChange: TProc<TAccount>;
+    FOnNetworkChange: TProc<TNetwork>;
+    FOnStateChange  : TProc<TState>;
   public
     constructor Create(const networks: TArray<TChain>; const options: TOptions; const projectId: string);
     procedure Open; async; overload;
@@ -140,10 +139,9 @@ type
     property  CurrentAccount: TAccount read FAccount;
     property  CurrentNetwork: TNetwork read FNetWork;
     property  CurrentProvider: JSValue read FProvider;
-    property  OnAccountChange : TProc<TAccount> read FOnAccountChange  write FOnAccountChange;
-    property  OnProviderChange: TProc<JSValue>  read FOnProviderChange write FOnProviderChange;
-    property  OnNetworkChange : TProc<TNetwork> read FOnNetworkChange  write FOnNetworkChange;
-    property  OnStateChange   : TProc<TState>   read FOnStateChange    write FOnStateChange;
+    property  OnAccountChange: TProc<TAccount> read FOnAccountChange  write FOnAccountChange;
+    property  OnNetworkChange: TProc<TNetwork> read FOnNetworkChange  write FOnNetworkChange;
+    property  OnStateChange  : TProc<TState>   read FOnStateChange    write FOnStateChange;
   end;
 
 implementation
@@ -181,17 +179,16 @@ begin
   FAppKit.SubscribeAccount(procedure(arg: TAccount)
   begin
     FAccount := arg;
-    if Assigned(FOnAccountChange) then FOnAccountChange(FAccount);
+    if Assigned(FOnAccountChange) then FOnAccountChange(arg);
   end);
   FAppKit.SubscribeProvider(procedure(arg: TJSObject)
   begin
     if Assigned(arg) then FProvider := arg['eip155'] else FProvider := nil;
-    if Assigned(FOnProviderChange) then FOnProviderChange(FProvider);
   end);
   FAppKit.SubscribeNetwork(procedure(arg: TNetwork)
   begin
     FNetwork := arg;
-    if Assigned(FOnNetworkChange) then FOnNetworkChange(FNetwork);
+    if Assigned(FOnNetworkChange) then FOnNetworkChange(arg);
   end);
 end;
 
