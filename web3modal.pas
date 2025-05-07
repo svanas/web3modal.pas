@@ -112,11 +112,16 @@ const
   Sonic    : TChain; external name 'window.appKit.sonic';
 
 type
-  TView   = (Connect, Networks, Account);
+  TView = (
+    Connect,   // Principal view of the modal - default view when disconnected.
+    Networks,  // List of available networks - you can select and target a specific network before connecting.
+    Account);  // User profile - default view when connected.
   TOption = (
     Analytics, // Enable analytics to get more insights on your users activity within your Reown Cloud's dashboard
     DarkMode,  // Enable or disable dark mode for your modal
+    Email,     // Allow users to authenticate using their email account
     Onramp,    // Enable or disable the "buy crypto" feature in your modal
+    Socials,   // Allow users to authenticate using their social accounts
     Swaps);    // Enable or disable the swap feature in your modal
   TOptions = set of TOption;
 
@@ -162,6 +167,8 @@ function CreateAppKit(
   const networks : TArray<TChain>;
   const projectId: string;
   const darkMode : Boolean;
+  const email    : Boolean;
+  const socials  : Boolean;
   const analytics: Boolean;
   const swaps    : Boolean;
   const onramp   : Boolean): TAppKit; external name 'window.appKit.create';
@@ -171,7 +178,7 @@ function CreateAppKit(
 constructor TWeb3Modal.Create(const networks: TArray<TChain>; const options: TOptions; const projectId: string);
 begin
   inherited Create;
-  FAppKit := CreateAppKit(networks, projectId, DarkMode in options, Analytics in options, Swaps in options, Onramp in options);
+  FAppKit := CreateAppKit(networks, projectId, DarkMode in options, Email in Options, Socials in Options, Analytics in options, Swaps in options, Onramp in options);
   FAppKit.SubscribeState(procedure(arg: TState)
   begin
     if Assigned(FOnStateChange) then FOnStateChange(arg);
