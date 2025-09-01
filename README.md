@@ -28,11 +28,11 @@ Before you can use web3modal.pas in your TMS Web Core project, you will need to 
 ```html
 <script>
   fetch('https://raw.githubusercontent.com/svanas/web3modal.pas/main/dist/web3modal.js')
-    .then(r => r.text())
-    .then(js => {
+    .then(raw => raw.text())
+    .then(txt => {
       const script = document.createElement('script');
       script.type = 'module';
-      script.textContent = js;
+      script.textContent = txt;
       document.head.appendChild(script);
     });
 </script>
