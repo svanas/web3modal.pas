@@ -97,6 +97,7 @@ type
     procedure SubscribeProvider(const callback: TProc<TJSObject>); external name 'subscribeProviders';
     procedure SubscribeNetwork(const callback: TProc<TNetwork>);   external name 'subscribeNetwork';
     procedure SubscribeState(const callback: TProc<TState>);       external name 'subscribeState';
+    procedure SubscribeEvents(const callback: TProc<TJSObject>);   external name 'subscribeEvents';
   end;
 
 const
@@ -129,13 +130,14 @@ type
 
   TWeb3Modal = class
   strict private
-    FAccount : TAccount;
-    FAppKit  : TAppKit;
-    FNetwork : TNetwork;
+    FAccount: TAccount;
+    FAppKit: TAppKit;
+    FNetwork: TNetwork;
     FProvider: JSValue;
     FOnAccountChange: TProc<TAccount>;
     FOnNetworkChange: TProc<TNetwork>;
-    FOnStateChange  : TProc<TState>;
+    FOnStateChange: TProc<TState>;
+    FOnConnectionChange: TProc<Boolean>;
   public
     constructor Create(const networks: TArray<TChain>; const options: TOptions; const projectId: string);
     procedure Open; async; overload;
@@ -146,9 +148,10 @@ type
     property  CurrentAccount: TAccount read FAccount;
     property  CurrentNetwork: TNetwork read FNetWork;
     property  CurrentProvider: JSValue read FProvider;
-    property  OnAccountChange: TProc<TAccount> read FOnAccountChange  write FOnAccountChange;
-    property  OnNetworkChange: TProc<TNetwork> read FOnNetworkChange  write FOnNetworkChange;
-    property  OnStateChange  : TProc<TState>   read FOnStateChange    write FOnStateChange;
+    property  OnAccountChange: TProc<TAccount> read FOnAccountChange write FOnAccountChange;
+    property  OnNetworkChange: TProc<TNetwork> read FOnNetworkChange write FOnNetworkChange;
+    property  OnStateChange: TProc<TState> read FOnStateChange write FOnStateChange;
+    property  OnConnectionChange: TProc<Boolean> read FOnConnectionChange write FOnConnectionChange;
   end;
 
 implementation
@@ -198,6 +201,14 @@ begin
   begin
     FNetwork := arg;
     if Assigned(FOnNetworkChange) then FOnNetworkChange(arg);
+  end);
+  FAppKit.SubscribeEvents(procedure(arg: TJSObject)
+  begin
+    if Assigned(FOnConnectionChange) then
+      if TJSObject(arg['data'])['event'] = 'CONNECT_SUCCESS' then
+        FOnConnectionChange(True)
+      else if TJSObject(arg['data'])['event'] = 'DISCONNECT_SUCCESS' then
+        FOnConnectionChange(False);
   end);
 end;
 
