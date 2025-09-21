@@ -16,8 +16,8 @@ Before you proceed with the below steps, please make sure you have at least [Del
 1. Clone this repo to a directory of your choosing, for example `C:\Projects\web3modal.pas`
 1. Launch Delphi and start a new TMS Web Core project via _File > New > Other > TMS Web > TMS Web Application_
 1. Save your application to a directory of your choosing
-1. Click on: _Project > Add to Project_ and add [.\dist\web3modal.js](https://github.com/svanas/web3modal.pas/blob/main/dist/web3modal.js) to your project
-1. Click on: _Project > Add to Project_ and add [.\web3modal.pas](https://github.com/svanas/web3modal.pas/blob/main/web3modal.pas) (the unit, not the directory) to your project
+1. Click on: _Project > Add to Project_ and add [dist/web3modal.js](https://github.com/svanas/web3modal.pas/blob/main/dist/web3modal.js) to your project
+1. Click on: _Project > Add to Project_ and add [web3modal.pas](https://github.com/svanas/web3modal.pas/blob/main/web3modal.pas) (the unit, not the directory) to your project
 1. Run your application (F9)
 1. Navigate to https://metamask.io/
 1. Click on: Get MetaMask
