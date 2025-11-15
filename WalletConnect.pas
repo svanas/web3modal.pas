@@ -114,16 +114,20 @@ const
 
 type
   TView = (
-    Connect,   // Principal view of the modal - default view when disconnected.
-    Networks,  // List of available networks - you can select and target a specific network before connecting.
-    Account);  // User profile - default view when connected.
+    Connect,  // Principal view of the modal - default view when disconnected.
+    Networks, // List of available networks - you can select and target a specific network before connecting.
+    Account,  // User profile - default view when connected.
+    Send,     // Token sending interface that allows users to send tokens to another address.
+    Swap);
+
   TOption = (
-    Analytics, // Enable analytics to get more insights on your users activity within your Reown Cloud's dashboard
-    DarkMode,  // Enable or disable dark mode for your modal
-    Email,     // Allow users to authenticate using their email account
-    Onramp,    // Enable or disable the "buy crypto" feature in your modal
-    Socials,   // Allow users to authenticate using their social accounts
-    Swaps);    // Enable or disable the swap feature in your modal
+    AutoReconnect, // Enable or disable automatic reconnection on initialization and page load.
+    Analytics,     // Enable analytics to get more insights on your users activity within your Reown Cloud's dashboard
+    DarkMode,      // Enable or disable dark mode for your modal
+    Email,         // Allow users to authenticate using their email account
+    Onramp,        // Enable or disable the "buy crypto" feature in your modal
+    Socials,       // Allow users to authenticate using their social accounts
+    Swaps);        // Enable or disable the swap feature in your modal
   TOptions = set of TOption;
 
   TWalletConnect = class
@@ -163,25 +167,28 @@ begin
     Connect : Result['view'] := 'Connect';
     Networks: Result['view'] := 'Networks';
     Account : Result['view'] := 'Account';
+    Send    : Result['view'] := 'Send';
+    Swap    : Result['view'] := 'Swap';
   end;
 end;
 
 function CreateAppKit(
-  const networks : TArray<TChain>;
-  const projectId: string;
-  const darkMode : Boolean;
-  const email    : Boolean;
-  const socials  : Boolean;
-  const analytics: Boolean;
-  const swaps    : Boolean;
-  const onramp   : Boolean): TAppKit; external name 'window.appKit.create';
+  const networks     : TArray<TChain>;
+  const projectId    : string;
+  const darkMode     : Boolean;
+  const autoReconnect: Boolean;
+  const email        : Boolean;
+  const socials      : Boolean;
+  const analytics    : Boolean;
+  const swaps        : Boolean;
+  const onramp       : Boolean): TAppKit; external name 'window.appKit.create';
 
 {------------------------------- TWalletConnect -------------------------------}
 
 constructor TWalletConnect.Create(const networks: TArray<TChain>; const options: TOptions; const projectId: string);
 begin
   inherited Create;
-  FAppKit := CreateAppKit(networks, projectId, DarkMode in options, Email in Options, Socials in Options, Analytics in options, Swaps in options, Onramp in options);
+  FAppKit := CreateAppKit(networks, projectId, DarkMode in options, AutoReconnect in options, Email in Options, Socials in Options, Analytics in options, Swaps in options, Onramp in options);
   FAppKit.SubscribeState(procedure(arg: TState)
   begin
     if Assigned(FOnStateChange) then FOnStateChange(arg);
