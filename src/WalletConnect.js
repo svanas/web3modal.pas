@@ -5,11 +5,9 @@ window.appKit = {
   base      : null,
   bsc       : null,
   gnosis    : null,
-  holesky   : null,
   mainnet   : null,
   optimism  : null,
   polygon   : null,
-  pulsechain: null,
   sepolia   : null,
   sonic     : null
 }
@@ -17,7 +15,7 @@ window.appKit = {
 import { ethers } from 'ethers';
 import { createAppKit } from '@reown/appkit';
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
-import { arbitrum, avalanche, base, bsc, gnosis, holesky, mainnet, optimism, polygon, pulsechain, sepolia, sonic } from '@reown/appkit/networks';
+import { arbitrum, avalanche, base, bsc, gnosis, mainnet, optimism, polygon, sepolia, sonic } from '@reown/appkit/networks';
 
 window.appKit.create = (networks, projectId, darkMode, email, socials, analytics, swaps, onramp) => {
   return createAppKit({
@@ -41,10 +39,8 @@ window.appKit.avalanche  = avalanche;
 window.appKit.base       = base;
 window.appKit.bsc        = bsc;
 window.appKit.gnosis     = gnosis;
-window.appKit.holesky    = holesky;
 window.appKit.mainnet    = mainnet;
 window.appKit.optimism   = optimism;
 window.appKit.polygon    = polygon;
-window.appKit.pulsechain = pulsechain;
 window.appKit.sepolia    = sepolia;
 window.appKit.sonic      = sonic;

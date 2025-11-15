@@ -106,11 +106,9 @@ const
   Base      : TChain; external name 'window.appKit.base';
   BSC       : TChain; external name 'window.appKit.bsc';
   Gnosis    : TChain; external name 'window.appKit.gnosis';
-  Holesky   : TChain; external name 'window.appKit.holesky';
   Mainnet   : TChain; external name 'window.appKit.mainnet';
   Optimism  : TChain; external name 'window.appKit.optimism';
   Polygon   : TChain; external name 'window.appKit.polygon';
-  Pulsechain: TChain; external name 'window.appKit.pulsechain';
   Sepolia   : TChain; external name 'window.appKit.sepolia';
   Sonic     : TChain; external name 'window.appKit.sonic';
 

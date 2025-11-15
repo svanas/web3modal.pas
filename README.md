@@ -52,7 +52,7 @@ begin
   dialog.Open;
 end;
 ```
-If you want to open the Networks or Account view (not the Wallet Connect view), you can pass a parameter to `Open()`:
+If you want to open the Networks or Account view (not the Wallets view), you can pass a parameter to `Open()`:
 ```delphi
 procedure TForm1.WebButton1Click(Sender: TObject);
 begin
