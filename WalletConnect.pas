@@ -1,15 +1,15 @@
 {******************************************************************************}
 {                                                                              }
-{                                web3modal.pas                                 }
+{                              WalletConnect.pas                               }
 {                                                                              }
 {             Copyright(c) 2025 Stefan van As <svanas@runbox.com>              }
-{         Github Repository <https://github.com/svanas/web3modal.pas>          }
+{       Github Repository <https://github.com/svanas/WalletConnect.pas>        }
 {                                                                              }
 {                        Distributed under GNU GPL v3.0                        }
 {                                                                              }
 {******************************************************************************}
 
-unit web3modal;
+unit WalletConnect;
 
 {$MODESWITCH EXTERNALCLASS}
 
@@ -128,7 +128,7 @@ type
     Swaps);    // Enable or disable the swap feature in your modal
   TOptions = set of TOption;
 
-  TWeb3Modal = class
+  TWalletConnect = class
   strict private
     FAccount: TAccount;
     FAppKit: TAppKit;
@@ -178,9 +178,9 @@ function CreateAppKit(
   const swaps    : Boolean;
   const onramp   : Boolean): TAppKit; external name 'window.appKit.create';
 
-{--------------------------------- TWeb3Modal ---------------------------------}
+{------------------------------- TWalletConnect -------------------------------}
 
-constructor TWeb3Modal.Create(const networks: TArray<TChain>; const options: TOptions; const projectId: string);
+constructor TWalletConnect.Create(const networks: TArray<TChain>; const options: TOptions; const projectId: string);
 begin
   inherited Create;
   FAppKit := CreateAppKit(networks, projectId, DarkMode in options, Email in Options, Socials in Options, Analytics in options, Swaps in options, Onramp in options);
@@ -212,27 +212,27 @@ begin
   end);
 end;
 
-procedure TWeb3Modal.Open;
+procedure TWalletConnect.Open;
 begin
   await(FAppKit.Open);
 end;
 
-procedure TWeb3Modal.Open(const view: TView);
+procedure TWalletConnect.Open(const view: TView);
 begin
   await(FAppKit.Open(GetOptions(view)));
 end;
 
-procedure TWeb3Modal.Disconnect;
+procedure TWalletConnect.Disconnect;
 begin
   await(FAppKit.Disconnect);
 end;
 
-procedure TWeb3Modal.SwitchNetwork(const chain: TChain);
+procedure TWalletConnect.SwitchNetwork(const chain: TChain);
 begin
   await(FAppKit.SwitchNetwork(chain));
 end;
 
-function TWeb3Modal.Connected: Boolean;
+function TWalletConnect.Connected: Boolean;
 begin
   Result := FAppKit.Connected;
 end;

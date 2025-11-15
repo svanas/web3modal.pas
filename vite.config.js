@@ -5,9 +5,9 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
-      input: 'src/web3modal.js',
+      input: 'src/WalletConnect.js',
       output: {
-        entryFileNames: 'web3modal.js',
+        entryFileNames: 'WalletConnect.js',
         format: 'esm',
         inlineDynamicImports: true,
       },

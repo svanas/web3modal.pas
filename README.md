@@ -1,23 +1,23 @@
-# web3modal.pas
+# WalletConnect.pas
 
 Connects 500+ crypto wallet providers to your Delphi-made web app in seconds.
 
-web3modal.pas is built upon the following tech stack:
+WalletConnect.pas is built upon the following tech stack:
 1. [Embarcadero Delphi](https://www.embarcadero.com/products/delphi), an IDE and programming language.
 1. [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp), a framework for creating modern web applications in Delphi.
 1. [web3.pas](https://github.com/svanas/web3.pas), a SDK for creating decentralized web apps with TMS Web Core in Delphi.
 
-Under the hood, web3modal.pas is powered by [Reown's AppKit](https://reown.com/appkit), a JavaScript toolkit to build a unified UX for decentralized web apps. You can see Reown's AppKit in action [here](https://demo.reown.com).
+Under the hood, WalletConnect.pas is powered by [Reown's AppKit](https://reown.com/appkit), a JavaScript toolkit to build a unified UX for decentralized web apps. You can see Reown's AppKit in action [here](https://demo.reown.com).
 
 Before you proceed with the below steps, please make sure you have at least [Delphi Community Edition](https://www.embarcadero.com/products/delphi/starter) and [TMS Web Core](https://www.tmssoftware.com/site/tmswebcore.asp#downloads). We will guide you through the rest you need, including installation of a crypto wallet into your web browser.
 
 ## Installation
 
-1. Clone this repo to a directory of your choosing, for example `C:\Projects\web3modal.pas`
+1. Clone this repo to a directory of your choosing, for example `C:\Projects\WalletConnect.pas`
 1. Launch Delphi and start a new TMS Web Core project via _File > New > Other > TMS Web > TMS Web Application_
 1. Save your application to a directory of your choosing
-1. Click on: _Project > Add to Project_ and add [dist/web3modal.js](https://github.com/svanas/web3modal.pas/blob/main/dist/web3modal.js) to your project
-1. Click on: _Project > Add to Project_ and add [web3modal.pas](https://github.com/svanas/web3modal.pas/blob/main/web3modal.pas) (the unit, not the directory) to your project
+1. Click on: _Project > Add to Project_ and add [dist/WalletConnect.js](https://github.com/svanas/WalletConnect.pas/blob/main/dist/WalletConnect.js) to your project
+1. Click on: _Project > Add to Project_ and add [WalletConnect.pas](https://github.com/svanas/WalletConnect.pas/blob/main/WalletConnect.pas) (the unit, not the directory) to your project
 1. Run your application (F9)
 1. Navigate to https://metamask.io/
 1. Click on: Get MetaMask
@@ -25,49 +25,49 @@ Before you proceed with the below steps, please make sure you have at least [Del
 
 ## Configuration
 
-Before you can use web3modal.pas in your TMS Web Core project, you will need to manually add the following snippet to the `<head>` section of your project's HTML document:
+Before you can use WalletConnect.pas in your TMS Web Core project, you will need to manually add the following snippet to the `<head>` section of your project's HTML document:
 ```html
-<script type="module" src="web3modal.js"></script>
+<script type="module" src="WalletConnect.js"></script>
 ```
 
 ## Implementation
 
-Before you can trigger the modal, you'll need to create a TWeb3Modal instance:
+Before you can trigger the WalletConnect dialog, you'll need to create a TWalletConnect instance:
 ```delphi
 var
-  modal: TWeb3Modal;
+  dialog: TWalletConnect;
 begin
-  modal := TWeb3Modal.Create([Mainnet, Polygon], [], web3modal.ProjectId);
+  dialog := TWalletConnect.Create([Mainnet, Polygon], [], WalletConnect.ProjectId);
   ...
 end;
 ```
-Ideally, TWeb3Modal should be a singleton in your project. There is no need to have more than one instance in your application.
+Ideally, TWalletConnect should be a singleton in your project. There is no need to have more than one instance in your application.
 
-### Trigger the modal
+### Trigger the WebConnect dialog
 
-You can trigger the modal by calling the `Open()` function from a modal instance returned by `TWeb3Modal.Create`:
+You can trigger the WalletConnect dialog by calling the `Open()` function from an instance returned by `TWalletConnect.Create`:
 ```delphi
 procedure TForm1.WebButton1Click(Sender: TObject);
 begin
-  modal.Open;
+  dialog.Open;
 end;
 ```
 If you want to open the Networks or Account view (not the Wallet Connect view), you can pass a parameter to `Open()`:
 ```delphi
 procedure TForm1.WebButton1Click(Sender: TObject);
 begin
-  modal.Open(Networks);
+  dialog.Open(Networks);
 end;
 ```
 If you want to know if your web application is connected to your crypto wallet, you can do this:
 ```delphi
-if modal.Connected then ... else ...
+if dialog.Connected then ... else ...
 ```
 ### Disconnect
 ```delphi
 procedure TForm1.WebButton1Click(Sender: TObject);
 begin
-  modal.Disconnect;
+  dialog.Disconnect;
 end;
 ```
 
@@ -75,10 +75,10 @@ end;
 ```delphi
 procedure TForm1.WebButton1Click(Sender: TObject);
 begin
-  if modal.CurrentNetwork.ChainId = Mainnet.Id then
-    modal.SwitchNetwork(Polygon)
+  if dialog.CurrentNetwork.ChainId = Mainnet.Id then
+    dialog.SwitchNetwork(Polygon)
   else
-    modal.SwitchNetwork(Mainnet);
+    dialog.SwitchNetwork(Mainnet);
 end;
 ```
 
@@ -87,14 +87,14 @@ end;
 1. Clone [this other repo](https://github.com/svanas/web3.pas) to a directory of your choosing, for example `C:\Projects\web3.pas`
 1. Click on: _Project > Add to Project_ and add `web3.pas` (the unit, not the directory) to your project
 
-Once `modal.Connected` is `True` and you have a `modal.CurrentProvider`, you have a read-only connection to the data on the blockchain. This can be used to query the current account state, fetch historic logs, look up contract code and so on.
+Once `dialog.Connected` is `True` and you have a `dialog.CurrentProvider`, you have a read-only connection to the data on the blockchain. This can be used to query the current account state, fetch historic logs, look up contract code and so on.
 ```delphi
 [async] procedure TForm1.WebButton1Click(Sender: TObject);
 var
   provider: TJsonRpcProvider;
   balance : TWei;
 begin
-  provider := Ethers.BrowserProvider.New(modal.CurrentProvider);
+  provider := Ethers.BrowserProvider.New(dialog.CurrentProvider);
   if Assigned(provider) then
   begin
     // Get the current balance of an account (by address or ENS name)
@@ -118,7 +118,7 @@ var
   receipt : TTransactionReceipt;
 begin
   // Connect to the EIP-1193 object. This is a standard protocol that allows for read-only requests through your crypto wallet.
-  provider := Ethers.BrowserProvider.New(modal.CurrentProvider);
+  provider := Ethers.BrowserProvider.New(dialog.CurrentProvider);
   if Assigned(provider) then
   begin
     // Request access to write operations, which will be performed by the private key that your crypto wallet manages for you.
@@ -127,7 +127,7 @@ begin
     begin
       // Once you have a Signer, you can have your crypto wallet sign your transaction and broadcast it to the network.
       tx := Transaction(
-        modal.CurrentAccount.Address,                 // From your account
+        dialog.CurrentAccount.Address,                // From your account
         '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045', // To: vitalik.eth
         Ethers.ParseEther('1.0')                      // Value
       );
@@ -154,7 +154,7 @@ The following docs cover many of the most common operations that developers requ
 
 ## License
 
-Distributed under the [GPL-3.0](https://github.com/svanas/web3modal.pas/blob/master/LICENSE) license.
+Distributed under the [GPL-3.0](https://github.com/svanas/WalletConnect.pas/blob/master/LICENSE) license.
 
 ## Commercial support and training
 
@@ -164,7 +164,7 @@ Commercial support and training is available from [Stefan](https://svanas.github
 
 Because [Reown's AppKit](https://reown.com/appkit) is a so-called [ES module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules), and because Reown's AppKit depends on other ES modules, you need to bundle these dependencies before you can run your application.
 
-For your convenience, Reown’s AppKit has been built and bundled into [dist/web3modal.js](https://github.com/svanas/web3modal.pas/blob/main/dist/web3modal.js) and there is no need for you yourself to build it.
+For your convenience, Reown’s AppKit has been built and bundled into [dist/WalletConnect.js](https://github.com/svanas/WalletConnect.pas/blob/main/dist/WalletConnect.js) and there is no need for you yourself to build it.
 
 However, if you really really want to build Reown’s AppKit, here is how to do it. First, you’ll need to install node.js:
 
@@ -184,7 +184,7 @@ Next up, you’ll need to install [Vite](https://vite.dev), a JavaScript module 
    npm install --save-dev vite
    ```
 
-Last but not least, you’ll need to install Reown’s AppKit, a JavaScript module that powers web3modal.pas:
+Last but not least, you’ll need to install Reown’s AppKit, a JavaScript module that powers WalletConnect.pas:
 
 1. Open a PowerShell window and navigate to the directory where you cloned this repo into.
 1. Enter the following command:
@@ -192,7 +192,7 @@ Last but not least, you’ll need to install Reown’s AppKit, a JavaScript modu
    npm install @reown/appkit @reown/appkit-adapter-ethers
    ```
 
-Now that everything is installed, here is how to build [dist/web3modal.js](https://github.com/svanas/web3modal.pas/blob/main/dist/web3modal.js) from source:
+Now that everything is installed, here is how to build [dist/WalletConnect.js](https://github.com/svanas/WalletConnect.pas/blob/main/dist/WalletConnect.js) from source:
 
 1. Open a PowerShell window and navigate to the directory where you cloned this repo into.
 1. Enter the following command:
